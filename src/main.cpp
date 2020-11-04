@@ -10,12 +10,12 @@ int main( int argc, char* argv[] ) {
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{320};
   constexpr std::size_t kScreenHeight{320};		// AC from 640
-  constexpr std::size_t kGridWidth{16};		// AC from 32
-  constexpr std::size_t kGridHeight{16};
+  constexpr std::size_t kNumXGrids{16};		// AC from 32
+  constexpr std::size_t kNumYGrids{16};
 
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+  Renderer renderer(kScreenWidth, kScreenHeight, kNumXGrids, kNumYGrids);
   Controller controller;
-  Game game(kGridWidth, kGridHeight);
+  Game game(kNumXGrids, kNumYGrids);
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
