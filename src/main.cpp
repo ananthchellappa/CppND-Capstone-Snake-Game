@@ -3,7 +3,9 @@
 #include "game.h"
 #include "renderer.h"
 
-int main() {
+//int main() { // https://stackoverflow.com/questions/22741452/resolving-error-lnk2019-unresolved-external-symbol
+// actually, even Lazy Foo has pointed this out. So, how does UD get away without it?
+int main( int argc, char* argv[] ) {
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};
