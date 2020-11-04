@@ -8,11 +8,7 @@ class Snake {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
-  Snake(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+  Snake(int grid_width, int grid_height);
 
   void Update();
 
@@ -22,7 +18,7 @@ class Snake {
   Direction direction = Direction::kUp;
 
   float speed{0.1f};
-  int size{1};
+  int size{3};          // changing this did not change the initial length..
   bool alive{true};
   float head_x;
   float head_y;

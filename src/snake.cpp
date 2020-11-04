@@ -77,3 +77,36 @@ bool Snake::SnakeCell(int x, int y) {
   }
   return false;
 }
+
+Snake::Snake(int grid_width, int grid_height)
+    : grid_width(grid_width),
+    grid_height(grid_height),
+    head_x(grid_width / 2),
+    head_y(grid_height / 2) {
+// just to put in initial length
+    // get direction, and, based on that, add points to the body
+    int x_incr, y_incr;
+    switch (direction) {
+    case Direction::kUp :
+        x_incr = 0;
+        y_incr = -1;
+        break;
+    case Direction::kDown :
+        x_incr = 0;
+        y_incr = 1;
+        break;
+    case Direction::kLeft :
+        x_incr = -1;
+        y_incr = 0;
+        break;
+    case Direction::kRight :
+        x_incr = 1;
+        y_incr = 0;
+    }
+    for (auto count = 1; count < size; count++) {
+        SDL_Point cell{
+            static_cast<int>(head_x-(size-count)*x_incr),
+            static_cast<int>(head_y-(size-count)*y_incr) };
+        body.push_back(cell);
+    }
+}
