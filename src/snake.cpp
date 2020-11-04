@@ -81,7 +81,7 @@ bool Snake::SnakeCell(int x, int y) {
 Snake::Snake(int grid_width, int grid_height)
     : grid_width(grid_width),
     grid_height(grid_height),
-    head_x(grid_width / 2),
+    head_x(grid_width  / 2),
     head_y(grid_height / 2) {
 // just to put in initial length
     // get direction, and, based on that, add points to the body
