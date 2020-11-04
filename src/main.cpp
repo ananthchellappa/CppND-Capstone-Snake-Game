@@ -8,10 +8,10 @@
 int main( int argc, char* argv[] ) {
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
-  constexpr std::size_t kScreenWidth{320};
-  constexpr std::size_t kScreenHeight{320};		// AC from 640
-  constexpr std::size_t kNumXGrids{16};		// AC from 32
-  constexpr std::size_t kNumYGrids{16};
+  constexpr std::size_t kScreenWidth{240};
+  constexpr std::size_t kScreenHeight{240};		// AC from 640
+  constexpr std::size_t kNumXGrids{10};		// AC from 32
+  constexpr std::size_t kNumYGrids{10};
 
   Renderer renderer(kScreenWidth, kScreenHeight, kNumXGrids, kNumYGrids);
   Controller controller;

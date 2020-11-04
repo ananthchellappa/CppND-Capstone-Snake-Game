@@ -20,6 +20,7 @@ void Snake::Update() {
 }
 
 void Snake::UpdateHead() {
+
   switch (direction) {
     case Direction::kUp:
       head_y -= speed;
@@ -37,7 +38,29 @@ void Snake::UpdateHead() {
       head_x += speed;
       break;
   }
+  std::vector<int> next_xy = NextCell();
+  int x = static_cast<int>(head_x);
+  int y = static_cast<int>(head_y);
 
+  switch (direction) {
+  case Direction::kUp:
+      if (next_xy[1] < 0) {
+          if (x <= 0)    // can't turn left coz you're at UL
+              direction = Direction::kRight;
+          else
+              direction = Direction::kLeft;
+      }
+      break;
+
+  case Direction::kDown:
+      if (next_xy[1] >= grid_height) {
+          if (x >= grid_width - 1) // can't make a left turn coz you're at BR
+              direction = Direction::kLeft;
+          else
+              direction = Direction::kRight;
+      }
+
+  }
   // Wrap the Snake around to the beginning if going off of the screen.
   head_x = fmod(head_x + grid_width, grid_width);
   head_y = fmod(head_y + grid_height, grid_height);
@@ -109,4 +132,31 @@ Snake::Snake(int grid_width, int grid_height)
             static_cast<int>(head_y-(size-count)*y_incr) };
         body.push_back(cell);
     }
+}
+
+std::vector<int> Snake::NextCell() {
+    // given current direction and head coordinates, what is the next cell?
+    std::vector<int> next_xy{ 0,0 };
+    int x = static_cast<int>(head_x);
+    int y = static_cast<int>(head_y);
+    switch (direction) {
+    case Direction::kUp:
+        y -= 1;
+        break;
+
+    case Direction::kDown:
+        y += 1;
+        break;
+
+    case Direction::kLeft:
+        x -= 1;
+        break;
+
+    case Direction::kRight:
+        x += 1;
+        break;
+    }
+    next_xy[0] = x;
+    next_xy[1] = y;
+    return next_xy;
 }
