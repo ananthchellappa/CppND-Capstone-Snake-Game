@@ -25,6 +25,7 @@ class Snake {
   std::vector<SDL_Point> body;
 
  private:
+  void IncrHead();	// just does math
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
   std::vector<int> NextCell();

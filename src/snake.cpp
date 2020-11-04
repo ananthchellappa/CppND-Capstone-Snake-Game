@@ -19,8 +19,28 @@ void Snake::Update() {
   }
 }
 
-void Snake::UpdateHead() {
+void Snake::IncrHead() {
+    switch (direction) {
+    case Direction::kUp:
+        head_y -= speed;
+        break;
 
+    case Direction::kDown:
+        head_y += speed;
+        break;
+
+    case Direction::kLeft:
+        head_x -= speed;
+        break;
+
+    case Direction::kRight:
+        head_x += speed;
+        break;
+    }
+}
+
+void Snake::UpdateHead() {
+    bool redirected = false;
   switch (direction) {
     case Direction::kUp:
       head_y -= speed;
@@ -44,7 +64,9 @@ void Snake::UpdateHead() {
 
   switch (direction) {
   case Direction::kUp:
-      if (next_xy[1] < 0) {
+      if (head_y < 0) {
+          head_y += speed;
+          redirected = true;
           if (x <= 0)    // can't turn left coz you're at UL
               direction = Direction::kRight;
           else
@@ -53,17 +75,57 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kDown:
-      if (next_xy[1] >= grid_height) {
+      if (head_y >= grid_height) {
+          head_y -= speed;
+          redirected = true;
           if (x >= grid_width - 1) // can't make a left turn coz you're at BR
               direction = Direction::kLeft;
           else
               direction = Direction::kRight;
       }
+      break;
 
+  case Direction::kRight:
+      if (head_x >= grid_width) {
+          head_x -= speed;
+          redirected = true;
+          if (y <= 0 ) // can't make a left turn coz you're at UR
+              direction = Direction::kDown;
+          else
+              direction = Direction::kUp;
+      }
+      break;
+
+  case Direction::kLeft:
+      if (head_x <= 0) {
+          head_x += speed;
+          redirected = true;
+          if (y >= grid_height - 1 ) // can't make a left turn coz you're at BL
+              direction = Direction::kUp;
+          else
+              direction = Direction::kDown;
+      }
+      break;
   }
-  // Wrap the Snake around to the beginning if going off of the screen.
-  head_x = fmod(head_x + grid_width, grid_width);
-  head_y = fmod(head_y + grid_height, grid_height);
+  // violating DRY for now - will fix later :)
+  if ( redirected )
+      switch (direction) {
+      case Direction::kUp:
+          head_y -= speed;
+          break;
+
+      case Direction::kDown:
+          head_y += speed;
+          break;
+
+      case Direction::kLeft:
+          head_x -= speed;
+          break;
+
+      case Direction::kRight:
+          head_x += speed;
+          break;
+      }
 }
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {
