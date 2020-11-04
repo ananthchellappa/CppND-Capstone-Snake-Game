@@ -40,25 +40,8 @@ void Snake::IncrHead() {
 }
 
 void Snake::UpdateHead() {
-    bool redirected = false;
-  switch (direction) {
-    case Direction::kUp:
-      head_y -= speed;
-      break;
-
-    case Direction::kDown:
-      head_y += speed;
-      break;
-
-    case Direction::kLeft:
-      head_x -= speed;
-      break;
-
-    case Direction::kRight:
-      head_x += speed;
-      break;
-  }
-  std::vector<int> next_xy = NextCell();
+  bool redirected = false;
+  IncrHead();
   int x = static_cast<int>(head_x);
   int y = static_cast<int>(head_y);
 
@@ -108,24 +91,8 @@ void Snake::UpdateHead() {
       break;
   }
   // violating DRY for now - will fix later :)
-  if ( redirected )
-      switch (direction) {
-      case Direction::kUp:
-          head_y -= speed;
-          break;
-
-      case Direction::kDown:
-          head_y += speed;
-          break;
-
-      case Direction::kLeft:
-          head_x -= speed;
-          break;
-
-      case Direction::kRight:
-          head_x += speed;
-          break;
-      }
+  if (redirected)
+      IncrHead();
 }
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {
@@ -221,4 +188,19 @@ std::vector<int> Snake::NextCell() {
     next_xy[0] = x;
     next_xy[1] = y;
     return next_xy;
+}
+
+void Snake::ChangeDirection(Direction inpDir) {
+    // uses the given input as a suggestion and looks at what happens before implement or rejecting
+    Direction curDir = direction;
+    direction = inpDir;
+    std::vector<int> next_xy = NextCell();
+    if (SnakeCell(next_xy[0], next_xy[1]))
+        direction = curDir;     // revert
+    else {
+        // since you can't be wall and body :)
+        if (next_xy[0] < 0 || next_xy[0] >= grid_width ||
+            next_xy[1] < 0 || next_xy[1] >= grid_height)
+            direction = curDir;
+    }
 }

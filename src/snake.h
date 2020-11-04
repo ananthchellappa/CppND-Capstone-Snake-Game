@@ -14,6 +14,7 @@ class Snake {
 
   void GrowBody();
   bool SnakeCell(int x, int y);
+  void ChangeDirection(Direction inpDir);
 
   Direction direction = Direction::kUp;
 
@@ -29,7 +30,7 @@ class Snake {
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
   std::vector<int> NextCell();
-  bool WallOrBody(SDL_Point point);
+  bool WallOrBody(SDL_Point point);		// not used or defined currently..
 
   bool growing{false};
   int grid_width;
