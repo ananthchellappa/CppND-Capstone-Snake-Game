@@ -54,12 +54,13 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  for (SDL_Point const &point : snake.body) {
-    block.x = point.x * block.w;
-    block.y = point.y * block.h;
-    SDL_RenderFillRect(sdl_renderer, &block);
-  }
+  //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  //for (SDL_Point const &point : snake.body) {
+  //  block.x = point.x * block.w;
+  //  block.y = point.y * block.h;
+  //  SDL_RenderFillRect(sdl_renderer, &block);
+  //}
+  RenderBody(snake, block);
 
   // Render snake's head
   block.x = static_cast<int>(snake.head_x) * block.w;
@@ -79,3 +80,74 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
   std::string title{"Snake Score: " + std::to_string(score) + " FPS: " + std::to_string(fps)};
   SDL_SetWindowTitle(sdl_window, title.c_str());
 }
+
+Renderer::Direction Renderer::Oriented(int x1, int y1, int x2, int y2)
+{
+    // x1,y1 are predecessor - what x2,y2 are looking at..
+    if (y1 < y2)
+        return Direction::kUp;
+    else
+        if (y1 > y2)
+            return Direction::kDown;
+        else
+            if (x1 < x2)
+                return Direction::kLeft;
+            else
+                return Direction::kRight;
+    return Direction::kDown; // should never reach here..
+}
+
+void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
+{   // draw the appropriate rectangle with (sadly) in-place manipulation of block, which
+    // should be left as it was, in the end (in terms of w and h, not x,y )
+    switch (dir) {
+    case Direction::kUp :
+        block.x = x * block.w + 1;
+        block.y = y * block.h - 1;
+        block.w -= 2;
+        SDL_RenderFillRect(sdl_renderer, &block);
+        block.w += 2;
+        break;
+    case Direction::kDown :
+        block.x = x * block.w + 1;
+        block.y = y * block.h + 1;
+        block.w -= 2;
+        SDL_RenderFillRect(sdl_renderer, &block);
+        block.w += 2;
+        break;
+    case Direction::kLeft :
+        block.x = x * block.w - 2;
+        block.y = y * block.h + 1;
+        block.h -= 2;
+        block.w++;
+        SDL_RenderFillRect(sdl_renderer, &block);
+        block.h += 2;
+        block.w--;
+        break;
+    case Direction::kRight :
+        block.x = x * block.w;
+        block.y = y * block.h + 1;
+        block.h -= 2;
+        block.w++;
+        SDL_RenderFillRect(sdl_renderer, &block);
+        block.h += 2;
+        block.w--;
+        break;
+
+    }
+}
+
+void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
+{
+    Direction orientation;
+    int x = static_cast<int>(snake.head_x);
+    int y = static_cast<int>(snake.head_y);
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    orientation = Oriented(x, y, snake.body.back().x, snake.body.back().y  );
+    RenderBlock(orientation, snake.body.back().x, snake.body.back().y, block);
+    for (auto point = snake.body.rbegin() +1; point != snake.body.rend(); point++) {
+        orientation = Oriented((point - 1)->x, (point - 1)->y, point->x, point->y);
+        RenderBlock(orientation, point->x, point->y, block);
+    }
+}
+
