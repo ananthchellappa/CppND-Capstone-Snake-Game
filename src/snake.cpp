@@ -19,38 +19,47 @@ void Snake::Update() {
   }
 }
 
-void Snake::IncrHead() {
+Point Snake::IncrHead( float x, float y) {
     switch (direction) {
     case Direction::kUp:
-        head_y -= speed;
+        y -= speed;
         break;
 
     case Direction::kDown:
-        head_y += speed;
+        y += speed;
         break;
 
     case Direction::kLeft:
-        head_x -= speed;
+        x -= speed;
         break;
 
     case Direction::kRight:
-        head_x += speed;
+        x += speed;
         break;
     }
+    return Point(x, y);
 }
 
 void Snake::UpdateHead() {
   bool redirected = false;
-  IncrHead();
+  Point proj_head = IncrHead(head_x, head_y);
   int x = static_cast<int>(head_x);
   int y = static_cast<int>(head_y);
+  int new_x = static_cast<int>(proj_head.x);
+  int new_y = static_cast<int>(proj_head.y);
 
   switch (direction) {
   case Direction::kUp:
-      if (head_y < 0) {
-          head_y += speed;
+      if (proj_head.y < 0) {
           redirected = true;
           if (x <= 0)    // can't turn left coz you're at UL
+              direction = Direction::kRight;
+          else
+              direction = Direction::kLeft;
+      }
+      if (y != new_y && SnakeCell(new_x, new_y)) {
+          redirected = true;
+          if (SnakeCell(x - 1, y))
               direction = Direction::kRight;
           else
               direction = Direction::kLeft;
@@ -58,10 +67,16 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kDown:
-      if (head_y >= grid_height) {
-          head_y -= speed;
+      if (proj_head.y >= grid_height) {
           redirected = true;
           if (x >= grid_width - 1) // can't make a left turn coz you're at BR
+              direction = Direction::kLeft;
+          else
+              direction = Direction::kRight;
+      }
+      if (y != new_y && SnakeCell(new_x, new_y)) {
+          redirected = true;
+          if (SnakeCell(x + 1, y))
               direction = Direction::kLeft;
           else
               direction = Direction::kRight;
@@ -69,10 +84,16 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kRight:
-      if (head_x >= grid_width) {
-          head_x -= speed;
+      if (proj_head.x >= grid_width) {
           redirected = true;
           if (y <= 0 ) // can't make a left turn coz you're at UR
+              direction = Direction::kDown;
+          else
+              direction = Direction::kUp;
+      }
+      if (x != new_x && SnakeCell(new_x, new_y)) {
+          redirected = true;
+          if (SnakeCell(x , y-1))
               direction = Direction::kDown;
           else
               direction = Direction::kUp;
@@ -80,19 +101,28 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kLeft:
-      if (head_x <= 0) {
-          head_x += speed;
+      if (proj_head.x <= 0) {
           redirected = true;
           if (y >= grid_height - 1 ) // can't make a left turn coz you're at BL
               direction = Direction::kUp;
           else
               direction = Direction::kDown;
       }
+      if (x != new_x && SnakeCell(new_x, new_y)) {
+          redirected = true;
+          if (SnakeCell(x, y + 1))
+              direction = Direction::kUp;
+          else
+              direction = Direction::kDown;
+      }
       break;
   }
-  // violating DRY for now - will fix later :)
-  if (redirected)
-      IncrHead();
+
+  if (redirected) 
+      proj_head = IncrHead( head_x , head_y );
+   
+  head_x = proj_head.x;
+  head_y = proj_head.y;
 }
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {

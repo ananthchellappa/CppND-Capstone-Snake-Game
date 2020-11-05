@@ -4,6 +4,13 @@
 #include <vector>
 #include "SDL.h"
 
+class Point {
+public :
+	float x;
+	float y;
+	Point(float X, float Y) : x(X), y(Y) {};	// use the default copy constructor for now..
+};
+
 class Snake {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
@@ -26,7 +33,7 @@ class Snake {
   std::vector<SDL_Point> body;
 
  private:
-  void IncrHead();	// just does math
+  Point IncrHead( float, float);	// just does math
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
   std::vector<int> NextCell();
