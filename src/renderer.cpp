@@ -125,13 +125,13 @@ void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
         block.w--;
         break;
     case Direction::kRight :
-        block.x = x * block.w;
+        block.x = x * block.w + 1;
         block.y = y * block.h + 1;
         block.h -= 2;
-        block.w++;
+        //block.w++;
         SDL_RenderFillRect(sdl_renderer, &block);
         block.h += 2;
-        block.w--;
+        //block.w--;
         break;
 
     }
