@@ -6,8 +6,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width-1)),          // AC added -1
-      random_h(0, static_cast<int>(grid_height-1)) {        // solving food off screen bug
-  PlaceFood();
+      random_h(0, static_cast<int>(grid_height-1)),         // solving food off screen bug
+      color_RG(50, 255),
+      color_B( 20 , 200 ) {
+      PlaceFood();
 }
 
 void Game::Run(Controller const &controller, Renderer &renderer,
@@ -60,6 +62,9 @@ void Game::PlaceFood() {
     if (!snake.SnakeCell(x, y)) {
       food.location.x = x;
       food.location.y = y;
+      food.RGB[0] = color_RG(engine);
+      food.RGB[1] = color_RG(engine);
+      food.RGB[2] = color_B(engine);
       //std::cout << "food placed at : " << x << "," << y << std::endl;
       return;
     }
