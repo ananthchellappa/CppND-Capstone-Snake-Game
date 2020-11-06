@@ -67,7 +67,7 @@ void Game::PlaceFood() {
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!snake.IsAlive() ) return;
 
   snake.Update();
 
@@ -81,11 +81,11 @@ void Game::Update() {
     // Grow snake and increase speed.
     snake.GrowBody();
     //snake.speed += 0.02;  // AC
-    if (snake.size > 25 && snake.size < 35 ) {
+    if ( snake.SizeInBounds( 25, 35) ) {
         snake.ScaleSpeed(0.95);
     }
   }
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+int Game::GetSize() const { return snake.GetSize(); }

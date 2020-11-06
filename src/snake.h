@@ -27,14 +27,16 @@ class Snake {
 
   Direction direction = Direction::kUp;
 
-  int size{INITIAL_LENGTH};          // changing this did not change the initial length..
-  bool alive{true};
+  bool IsAlive() const { return alive; }
   Point GetHead() const { return Point(head_x, head_y); }
   const std::vector<SDL_Point>& GetBody() const { return body; }
   void ScaleSpeed(float factor) { speed *= factor; }
-
+  int GetSize() const { return size; }
+  bool SizeInBounds(int lower, int higher) const { return size > lower && size < higher; }
 
  private:
+  bool alive{true};
+  int size{INITIAL_LENGTH};          // changing this did not change the initial length..
   float speed{0.1f};
   float head_x;	// AC moved to private
   float head_y;
