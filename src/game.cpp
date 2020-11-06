@@ -58,8 +58,8 @@ void Game::PlaceFood() {
     // Check that the location is not occupied by a snake item before placing
     // food.
     if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
+      food.location.x = x;
+      food.location.y = y;
       //std::cout << "food placed at : " << x << "," << y << std::endl;
       return;
     }
@@ -75,7 +75,7 @@ void Game::Update() {
   int new_y = static_cast<int>(snake.GetHead().y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
+  if (food.location.x == new_x && food.location.y == new_y) {
     score++;
     PlaceFood();
     // Grow snake and increase speed.

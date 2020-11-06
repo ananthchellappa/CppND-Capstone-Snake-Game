@@ -7,6 +7,7 @@
 #include "renderer.h"
 #include "snake.h"
 
+
 class Game {
  public:
   Game(std::size_t grid_width, std::size_t grid_height);
@@ -17,7 +18,8 @@ class Game {
 
  private:
   Snake snake;
-  SDL_Point food;
+  //SDL_Point food;
+  Food food;
 
   std::random_device dev;
   std::mt19937 engine;

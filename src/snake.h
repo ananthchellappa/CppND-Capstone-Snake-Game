@@ -6,6 +6,12 @@
 
 #define INITIAL_LENGTH 3
 
+class Food {
+public:
+	SDL_Point location;
+	std::vector<int> RGB{ 0xFF, 0xCC, 0x00 };
+};
+
 class Point {
 public :
 	float x;
