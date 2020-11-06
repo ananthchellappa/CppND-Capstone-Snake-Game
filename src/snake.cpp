@@ -92,9 +92,11 @@ void Snake::UpdateHead() {
 
   if (redirected) 
       proj_head = IncrHead( head_x , head_y );
-   
-  head_x = proj_head.x;
-  head_y = proj_head.y;
+  
+  if ( proj_head.x >= 0 && proj_head.x < grid_width )
+    head_x = proj_head.x;
+  if ( proj_head.y >= 0 && proj_head.y < grid_height)
+    head_y = proj_head.y;
 }
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell) {
