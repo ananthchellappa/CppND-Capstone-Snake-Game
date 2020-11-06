@@ -150,12 +150,13 @@ void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
 void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
 {
     Direction orientation;
+    const std::vector<SDL_Point>& body = snake.GetBody();
     int x = static_cast<int>(snake.GetHead().x);
     int y = static_cast<int>(snake.GetHead().y);
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    orientation = Oriented(x, y, snake.body.back().x, snake.body.back().y  );
-    RenderBlock(orientation, snake.body.back().x, snake.body.back().y, block);
-    for (auto point = snake.body.rbegin() +1; point != snake.body.rend(); point++) {
+    orientation = Oriented(x, y, body.back().x, body.back().y  );
+    RenderBlock(orientation, body.back().x, body.back().y, block);
+    for (auto point = body.rbegin() +1; point != body.rend(); point++) {
         orientation = Oriented( *(point - 1), *point);
         RenderBlock(orientation, point->x, point->y, block);
     }

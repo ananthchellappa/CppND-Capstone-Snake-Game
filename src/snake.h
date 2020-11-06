@@ -4,6 +4,8 @@
 #include <vector>
 #include "SDL.h"
 
+#define INITIAL_LENGTH 3
+
 class Point {
 public :
 	float x;
@@ -26,14 +28,15 @@ class Snake {
   Direction direction = Direction::kUp;
 
   float speed{0.1f};
-  int size{3};          // changing this did not change the initial length..
+  int size{INITIAL_LENGTH};          // changing this did not change the initial length..
   bool alive{true};
   Point GetHead() const { return Point(head_x, head_y); }
-  std::vector<SDL_Point> body;
+  const std::vector<SDL_Point>& GetBody() const { return body; }
 
  private:
   float head_x;	// AC moved to private
   float head_y;
+  std::vector<SDL_Point> body;
 
   Point IncrHead( float, float);	// just does math
   void UpdateHead();
