@@ -148,17 +148,29 @@ void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
     }
 }
 
+void Renderer::SetColor(std::vector<int> RGB)
+{
+    if (RGB[0] > 0 && RGB[1] > 0 && RGB[2] > 0)
+        SDL_SetRenderDrawColor(sdl_renderer, RGB[0], RGB[1], RGB[2], 0xFF);
+    else
+        SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+}
+
 void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
 {
     Direction orientation;
     const std::vector<SDL_Point>& body = snake.GetBody();
+    const std::vector<std::vector<int>>& colors = snake.GetColors();
     int x = static_cast<int>(snake.GetHead().x);
     int y = static_cast<int>(snake.GetHead().y);
-    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);   // the neck :)
+    auto color_ptr = colors.rbegin();
+    SetColor( *color_ptr);
     orientation = Oriented(x, y, body.back().x, body.back().y  );
     RenderBlock(orientation, body.back().x, body.back().y, block);
     for (auto point = body.rbegin() +1; point != body.rend(); point++) {
         orientation = Oriented( *(point - 1), *point);
+        SetColor( *(++color_ptr) );
         RenderBlock(orientation, point->x, point->y, block);
     }
 }

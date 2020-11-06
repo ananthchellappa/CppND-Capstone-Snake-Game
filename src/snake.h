@@ -37,6 +37,7 @@ class Snake {
   bool IsAlive() const { return alive; }
   Point GetHead() const { return Point(head_x, head_y); }
   const std::vector<SDL_Point>& GetBody() const { return body; }
+  const std::vector<std::vector<int>>& GetColors() const { return colors;  }
   void ScaleSpeed(float factor) { speed *= factor; }
   int GetSize() const { return size; }
   bool SizeInBounds(int lower, int higher) const { return size > lower && size < higher; }
