@@ -28,11 +28,13 @@ class Snake {
   float speed{0.1f};
   int size{3};          // changing this did not change the initial length..
   bool alive{true};
-  float head_x;
-  float head_y;
+  Point GetHead() const { return Point(head_x, head_y); }
   std::vector<SDL_Point> body;
 
  private:
+  float head_x;	// AC moved to private
+  float head_y;
+
   Point IncrHead( float, float);	// just does math
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);

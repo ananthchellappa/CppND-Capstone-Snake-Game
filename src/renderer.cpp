@@ -57,8 +57,8 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   RenderBody(snake, block);
 
   // Render snake's head
-  block.x = static_cast<int>(snake.head_x) * block.w;
-  block.y = static_cast<int>(snake.head_y) * block.h;
+  block.x = static_cast<int>(snake.GetHead().x) * block.w;
+  block.y = static_cast<int>(snake.GetHead().y) * block.h;
   if (snake.alive) {
     SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
   } else {
@@ -150,8 +150,8 @@ void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
 void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
 {
     Direction orientation;
-    int x = static_cast<int>(snake.head_x);
-    int y = static_cast<int>(snake.head_y);
+    int x = static_cast<int>(snake.GetHead().x);
+    int y = static_cast<int>(snake.GetHead().y);
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     orientation = Oriented(x, y, snake.body.back().x, snake.body.back().y  );
     RenderBlock(orientation, snake.body.back().x, snake.body.back().y, block);
