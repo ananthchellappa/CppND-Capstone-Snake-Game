@@ -138,7 +138,7 @@ Snake::Snake(int grid_width, int grid_height)
     : grid_width(grid_width),
     grid_height(grid_height),
     head_x(grid_width  / 2),
-    head_y(grid_height / 2) {
+    head_y(grid_height / 2)  {
 // just to put in initial length
     // get direction, and, based on that, add points to the body
     int x_incr, y_incr;
@@ -163,7 +163,9 @@ Snake::Snake(int grid_width, int grid_height)
         SDL_Point cell{
             static_cast<int>(head_x-(size-count)*x_incr),
             static_cast<int>(head_y-(size-count)*y_incr) };
+        std::vector<int> color{ 0,0,0 };
         body.push_back(cell);
+        colors.push_back(color);
     }
 }
 

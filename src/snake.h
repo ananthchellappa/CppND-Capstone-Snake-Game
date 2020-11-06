@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include <vector>
+#include <algorithm>
 #include "SDL.h"
 
 #define INITIAL_LENGTH 3
@@ -39,6 +40,7 @@ class Snake {
   void ScaleSpeed(float factor) { speed *= factor; }
   int GetSize() const { return size; }
   bool SizeInBounds(int lower, int higher) const { return size > lower && size < higher; }
+  void Feed( Food snack) { food.RGB.assign( snack.RGB.begin(), snack.RGB.end() );  } // we only care about color.. sorry :)
 
  private:
   bool alive{true};
@@ -46,7 +48,10 @@ class Snake {
   float speed{0.1f};
   float head_x;	// AC moved to private
   float head_y;
-  std::vector<SDL_Point> body;
+  std::vector<SDL_Point> body;		// surprise, [0] is the tail.. so when you push_back(), that's the neck..
+  std::vector<std::vector<int>> colors;
+  Food food;	// the snake can see the food -- for now :) in a 2D world, you don't have LoSight if it's obscured by body..:)
+  // is this the best way though?.. think about it..
 
   Point IncrHead( float, float);	// just does math
   void UpdateHead();

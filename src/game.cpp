@@ -82,6 +82,7 @@ void Game::Update() {
   // Check if there's food over here
   if (food.location.x == new_x && food.location.y == new_y) {
     score++;
+    snake.Feed( std::ref(food ) );   // capture the existing one - as a copy unfortunately :(
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
