@@ -3,7 +3,7 @@
 This is a submission for the Udacity C++ NanoDegree Capstone Project. It started with Udacity's starter code - which  was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 The original project was modified/enhanced in the following ways :
-1. Eliminated wraparound - the boundaries are now walls. This was inspired by Google's play-in-browswer Snake game. But, running into the wall or the snake body does not result in death. It just necessitates a turn, if possible. If not possible, then it results in Game Over.
+1. Eliminated wraparound - the boundaries are now walls. This was inspired by Google's play-in-browser Snake game. But, running into the wall or the snake body does not result in death. It just necessitates a turn, if possible. If not possible, then it results in Game Over.
 2. Automatic turning - when running into the body or the wall - the snake turns left by default, if possible. If a left turn is not possible, a right turn will be attempted. The player can always override the default turn. A "left" turn when traveling in the right-ward direction means the snake will then start moving up.
 3. Speed no longer increases with food consumption - rather, when the snake is greater than 25 cells in length, speed is reduced 5% with each growth spurt till the length reaches 35 cells, after which speed stays constant. This has been found to give optimal player experience.
 4. The body of the snake is rendered such that its outline is clearly visible.
