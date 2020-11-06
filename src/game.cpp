@@ -82,7 +82,7 @@ void Game::Update() {
     snake.GrowBody();
     //snake.speed += 0.02;  // AC
     if (snake.size > 25 && snake.size < 35 ) {
-        snake.speed *= 0.95;
+        snake.ScaleSpeed(0.95);
     }
   }
 }
