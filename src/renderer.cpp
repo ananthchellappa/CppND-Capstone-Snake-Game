@@ -54,12 +54,6 @@ void Renderer::Render(Snake const snake, SDL_Point const &food) {
   SDL_RenderFillRect(sdl_renderer, &block);
 
   // Render snake's body
-  //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  //for (SDL_Point const &point : snake.body) {
-  //  block.x = point.x * block.w;
-  //  block.y = point.y * block.h;
-  //  SDL_RenderFillRect(sdl_renderer, &block);
-  //}
   RenderBody(snake, block);
 
   // Render snake's head
@@ -95,6 +89,22 @@ Renderer::Direction Renderer::Oriented(int x1, int y1, int x2, int y2)
             else
                 return Direction::kRight;
     return Direction::kDown; // should never reach here..
+}
+
+Renderer::Direction Renderer::Oriented(SDL_Point p1, SDL_Point p2)
+{   // p1 is predecessor
+    if (p1.y < p2.y)
+        return Direction::kUp;
+    else
+        if (p1.y > p2.y)
+            return Direction::kDown;
+        else
+            if (p1.x < p2.x)
+                return Direction::kLeft;
+            else
+                return Direction::kRight;
+    return Direction::kDown; // should never reach here..
+
 }
 
 void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
@@ -146,7 +156,7 @@ void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
     orientation = Oriented(x, y, snake.body.back().x, snake.body.back().y  );
     RenderBlock(orientation, snake.body.back().x, snake.body.back().y, block);
     for (auto point = snake.body.rbegin() +1; point != snake.body.rend(); point++) {
-        orientation = Oriented((point - 1)->x, (point - 1)->y, point->x, point->y);
+        orientation = Oriented( *(point - 1), *point);
         RenderBlock(orientation, point->x, point->y, block);
     }
 }

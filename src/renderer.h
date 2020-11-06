@@ -17,6 +17,7 @@ class Renderer {
   void RenderBody(Snake const snake, SDL_Rect &block);
   void UpdateWindowTitle(int score, int fps);
   Direction Oriented(int x1, int y1, int x2, int y2);
+  Direction Oriented(SDL_Point, SDL_Point);
   void RenderBlock(Direction, int, int, SDL_Rect& block);
 
  private:
