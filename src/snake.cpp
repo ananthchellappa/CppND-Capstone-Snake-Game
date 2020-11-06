@@ -50,16 +50,9 @@ void Snake::UpdateHead() {
 
   switch (direction) {
   case Direction::kUp:
-      if (proj_head.y < 0) {
+      if (proj_head.y < 0 || (y != new_y && SnakeCell(new_x, new_y)) ) {
           redirected = true;
-          if (x <= 0)    // can't turn left coz you're at UL
-              direction = Direction::kRight;
-          else
-              direction = Direction::kLeft;
-      }
-      if (y != new_y && SnakeCell(new_x, new_y)) {
-          redirected = true;
-          if (SnakeCell(x - 1, y))
+          if (x <= 0 || SnakeCell(x - 1, y) )    // can't turn left coz you're at UL
               direction = Direction::kRight;
           else
               direction = Direction::kLeft;
@@ -67,16 +60,9 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kDown:
-      if (proj_head.y >= grid_height) {
+      if (proj_head.y >= grid_height || (y != new_y && SnakeCell(new_x, new_y)) ) {
           redirected = true;
-          if (x >= grid_width - 1) // can't make a left turn coz you're at BR
-              direction = Direction::kLeft;
-          else
-              direction = Direction::kRight;
-      }
-      if (y != new_y && SnakeCell(new_x, new_y)) {
-          redirected = true;
-          if (SnakeCell(x + 1, y))
+          if (x >= grid_width - 1 || SnakeCell(x + 1, y) ) // can't make a left turn coz you're at BR
               direction = Direction::kLeft;
           else
               direction = Direction::kRight;
@@ -84,16 +70,9 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kRight:
-      if (proj_head.x >= grid_width) {
+      if (proj_head.x >= grid_width || x != new_x && SnakeCell(new_x, new_y) ) {
           redirected = true;
-          if (y <= 0 ) // can't make a left turn coz you're at UR
-              direction = Direction::kDown;
-          else
-              direction = Direction::kUp;
-      }
-      if (x != new_x && SnakeCell(new_x, new_y)) {
-          redirected = true;
-          if (SnakeCell(x , y-1))
+          if (y <= 0 || SnakeCell(x, y - 1) ) // can't make a left turn coz you're at UR
               direction = Direction::kDown;
           else
               direction = Direction::kUp;
@@ -101,16 +80,9 @@ void Snake::UpdateHead() {
       break;
 
   case Direction::kLeft:
-      if (proj_head.x <= 0) {
+      if (proj_head.x <= 0 || x != new_x && SnakeCell(new_x, new_y)) {
           redirected = true;
-          if (y >= grid_height - 1 ) // can't make a left turn coz you're at BL
-              direction = Direction::kUp;
-          else
-              direction = Direction::kDown;
-      }
-      if (x != new_x && SnakeCell(new_x, new_y)) {
-          redirected = true;
-          if (SnakeCell(x, y + 1))
+          if (y >= grid_height - 1 || SnakeCell(x, y + 1) ) // can't make a left turn coz you're at BL
               direction = Direction::kUp;
           else
               direction = Direction::kDown;
