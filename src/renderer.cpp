@@ -108,44 +108,40 @@ Renderer::Direction Renderer::Oriented(SDL_Point p1, SDL_Point p2)
 
 }
 
-void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block)
+void Renderer::RenderBlock(Direction dir, int x, int y, SDL_Rect& block, int d_skin)
 {   // draw the appropriate rectangle with (sadly) in-place manipulation of block, which
     // should be left as it was, in the end (in terms of w and h, not x,y )
+    SDL_Rect core;
+    core.x = x * block.w + d_skin;
+    core.y = y * block.h + d_skin;
+    core.w = block.w - 2 * d_skin;
+    core.h = block.h - 2 * d_skin;
+    SDL_RenderFillRect(sdl_renderer, &core);
+    // now re-use core for the filler
     switch (dir) {
     case Direction::kUp :
-        block.x = x * block.w + 1;
-        block.y = y * block.h - 1;
-        block.w -= 2;
-        SDL_RenderFillRect(sdl_renderer, &block);
-        block.w += 2;
+        core.y -= 2 * d_skin;
+        core.h = 2 * d_skin;
+        SDL_RenderFillRect(sdl_renderer, &core);
         break;
     case Direction::kDown :
-        block.x = x * block.w + 1;
-        block.y = y * block.h + 1;
-        block.w -= 2;
-        SDL_RenderFillRect(sdl_renderer, &block);
-        block.w += 2;
-        break;
-    case Direction::kLeft :
-        block.x = x * block.w - 2;
-        block.y = y * block.h + 1;
-        block.h -= 2;
-        block.w++;
-        SDL_RenderFillRect(sdl_renderer, &block);
-        block.h += 2;
-        block.w--;
+        core.y += block.h - 2 * d_skin;
+        core.h = 2 * d_skin;
+        SDL_RenderFillRect(sdl_renderer, &core);
         break;
     case Direction::kRight :
-        block.x = x * block.w + 1;
-        block.y = y * block.h + 1;
-        block.h -= 2;
-        //block.w++;
-        SDL_RenderFillRect(sdl_renderer, &block);
-        block.h += 2;
-        //block.w--;
+        core.x += block.w - 2 * d_skin;
+        core.w = 2 * d_skin;
+        SDL_RenderFillRect(sdl_renderer, &core);
+        break;
+    case Direction::kLeft :
+        core.x -= 2 * d_skin;
+        core.w = 2 * d_skin;
+        SDL_RenderFillRect(sdl_renderer, &core);
         break;
 
     }
+    SDL_RenderFillRect(sdl_renderer, &core);
 }
 
 void Renderer::SetColor(std::vector<int> RGB)
@@ -163,15 +159,14 @@ void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
     const std::vector<std::vector<int>>& colors = snake.GetColors();
     int x = static_cast<int>(snake.GetHead().x);
     int y = static_cast<int>(snake.GetHead().y);
-    //SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);   // the neck :)
     auto color_ptr = colors.rbegin();
     SetColor( *color_ptr);
     orientation = Oriented(x, y, body.back().x, body.back().y  );
-    RenderBlock(orientation, body.back().x, body.back().y, block);
+    RenderBlock(orientation, body.back().x, body.back().y, block, SKIN_DEPTH);
     for (auto point = body.rbegin() +1; point != body.rend(); point++) {
         orientation = Oriented( *(point - 1), *point);
         SetColor( *(++color_ptr) );
-        RenderBlock(orientation, point->x, point->y, block);
+        RenderBlock(orientation, point->x, point->y, block, SKIN_DEPTH);
     }
 }
 

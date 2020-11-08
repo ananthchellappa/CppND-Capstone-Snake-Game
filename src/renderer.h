@@ -18,7 +18,7 @@ class Renderer {
   void UpdateWindowTitle(int score, int fps);
   Direction Oriented(int x1, int y1, int x2, int y2);
   Direction Oriented(SDL_Point, SDL_Point);
-  void RenderBlock(Direction, int, int, SDL_Rect& block);
+  void RenderBlock(Direction, int, int, SDL_Rect& block, int d_skin);
   void SetColor(std::vector<int> RGB);
 
  private:

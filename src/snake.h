@@ -6,6 +6,7 @@
 #include "SDL.h"
 
 #define INITIAL_LENGTH 3
+#define SKIN_DEPTH 2	// number of pixels to take off from block width on each side
 
 class Food {
 public:
