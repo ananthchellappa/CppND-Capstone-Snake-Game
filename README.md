@@ -46,7 +46,6 @@ Optional Rubric items addressed :
 -- Implementation : The functions Renderer::RenderBlock and Renderer::RenderBody take the block parameter by reference - refere renderer.h lines 16-21
 -- Also, the getter for the Snake.body data member is as a const reference.
 
-
 ## Dependencies for Running Locally
 * cmake >= 3.7
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
