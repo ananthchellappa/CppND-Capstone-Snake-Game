@@ -7,6 +7,7 @@
 
 #define INITIAL_LENGTH 3
 #define SKIN_DEPTH 2	// number of pixels to take off from block width on each side
+#define TAIL_LENGTH 7
 
 class Food {
 public:

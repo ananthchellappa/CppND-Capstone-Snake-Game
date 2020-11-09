@@ -154,6 +154,8 @@ void Renderer::SetColor(std::vector<int> RGB)
 
 void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
 {
+    int d_skin = SKIN_DEPTH;
+    int count = 1;
     Direction orientation;
     const std::vector<SDL_Point>& body = snake.GetBody();
     const std::vector<std::vector<int>>& colors = snake.GetColors();
@@ -164,9 +166,11 @@ void Renderer::RenderBody(Snake const snake, SDL_Rect &block)
     orientation = Oriented(x, y, body.back().x, body.back().y  );
     RenderBlock(orientation, body.back().x, body.back().y, block, SKIN_DEPTH);
     for (auto point = body.rbegin() +1; point != body.rend(); point++) {
+        if (count++ > snake.GetSize() - TAIL_LENGTH)
+            d_skin++;
         orientation = Oriented( *(point - 1), *point);
         SetColor( *(++color_ptr) );
-        RenderBlock(orientation, point->x, point->y, block, SKIN_DEPTH);
+        RenderBlock(orientation, point->x, point->y, block, d_skin);
     }
 }
 
