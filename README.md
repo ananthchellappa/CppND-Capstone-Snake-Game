@@ -13,38 +13,38 @@ The original project was modified/enhanced in the following ways :
 Optional Rubric items addressed :
 
 1. The project demonstrates an understanding of C++ functions and control structures.
--- fulfilled in starter code? Yes
--- enhanced? Yes
--- Eg : renderer.cpp lines 78, 94, 110, 150 - new functions added. In the RenderBody (new) function, a loop that iterates backwards over a std::vector has been added
+- fulfilled in starter code? Yes
+- enhanced? Yes
+- Eg : renderer.cpp lines 78, 94, 110, 150 - new functions added. In the RenderBody (new) function, a loop that iterates backwards over a std::vector has been added
 
 2. The project accepts user input and process the input.
--- fulfilled in starter code? Yes
--- enhanced? Yes - no additional keystrokes processed, but the very simple "change direction" in the starter code has been revised considerably
--- new function Snake::ChangeDirection in snake.cpp line 195
+- fulfilled in starter code? Yes
+- enhanced? Yes - no additional keystrokes processed, but the very simple "change direction" in the starter code has been revised considerably
+- new function Snake::ChangeDirection in snake.cpp line 195
 
 3. The project uses Object Oriented Programming techniques.
--- fulfilled in starter code? Yes
--- enhanced? No - one class Point was added to simplify adding functionality, but no significant changes made along these lines. The starter code already meets this.
+- fulfilled in starter code? Yes
+- enhanced? No - one class Point was added to simplify adding functionality, but no significant changes made along these lines. The starter code already meets this.
 
 4. Classes use appropriate access specifiers for class members.
--- fulfilled in starter code? No -- in the Snake class, several data members are public
--- Implementation : all data members in Snake are now private with getters/setters. Refer lines 30-40 in snake.h
+- fulfilled in starter code? No -- in the Snake class, several data members are public
+- Implementation : all data members in Snake are now private with getters/setters. Refer lines 30-40 in snake.h
 
 5. Class constructors utilize member initialization lists.
--- fulfilled in starter code? Yes
--- enhanced : No
+- fulfilled in starter code? Yes
+- enhanced : No
 
 6. Classes encapsulate behavior.
--- fulfilled in starter code? No -- same reason as in (4) above
--- Implementation : all data members in Snake now private.
+- fulfilled in starter code? No -- same reason as in (4) above
+- Implementation : all data members in Snake now private.
 
 7. Overloaded functions allow the same function to operate on different parameters.
--- fulfilled in starter code? No
--- Implementation : Renderer::Direction - refer renderer.cpp lines 78 - 100
+- fulfilled in starter code? No
+- Implementation : Renderer::Direction - refer renderer.cpp lines 78 - 100
 
 8. The project makes use of references in function declarations.
--- Implementation : The functions Renderer::RenderBlock and Renderer::RenderBody take the block parameter by reference - refere renderer.h lines 16-21
--- Also, the getter for the Snake.body data member is as a const reference.
+- Implementation : The functions Renderer::RenderBlock and Renderer::RenderBody take the block parameter by reference - refere renderer.h lines 16-21
+- Also, the getter for the Snake.body data member is as a const reference.
 
 
 ## Dependencies for Running Locally
